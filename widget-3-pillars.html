@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACGF — Three Pillars Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --bg2: #f1efe8;
+    --border: rgba(0,0,0,0.1);
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --text3: #9c9a92;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --teal-mid: #1D9E75;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --blue-mid: #378ADD;
+    --coral: #993C1D;
+    --coral-light: #FAECE7;
+    --coral-mid: #D85A30;
+    --green-bg: #EAF3DE;
+    --green-txt: #3B6D11;
+    --amber-bg: #FAEEDA;
+    --amber-txt: #854F0B;
+    --red-bg: #FAECE7;
+    --red-txt: #993C1D;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --bg2: #242422;
+      --border: rgba(255,255,255,0.1);
+      --text: #e8e6de;
+      --text2: #9c9a92;
+      --text3: #5f5e5a;
+      --teal: #5DCAA5;
+      --teal-light: #04342C;
+      --teal-mid: #1D9E75;
+      --blue: #85B7EB;
+      --blue-light: #042C53;
+      --blue-mid: #378ADD;
+      --coral: #F0997B;
+      --coral-light: #4A1B0C;
+      --coral-mid: #D85A30;
+      --green-bg: #173404;
+      --green-txt: #97C459;
+      --amber-bg: #412402;
+      --amber-txt: #EF9F27;
+      --red-bg: #4A1B0C;
+      --red-txt: #F0997B;
+    }
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--blue);
+    background: var(--blue-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  h2 { font-size: 20px; font-weight: 500; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 14px; color: var(--text2); margin-bottom: 1.75rem; }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border: 0.5px solid var(--border);
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+  }
+
+  .tab {
+    padding: 16px 14px;
+    cursor: pointer;
+    border-right: 0.5px solid var(--border);
+    background: var(--bg);
+    transition: background 0.15s;
+    position: relative;
+  }
+
+  .tab:last-child { border-right: none; }
+  .tab:hover { background: var(--bg2); }
+  .tab.active { background: var(--bg2); }
+
+  .tab-bar {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .tab.active .tab-bar { opacity: 1; }
+  .t1 .tab-bar { background: var(--teal-mid); }
+  .t2 .tab-bar { background: var(--blue-mid); }
+  .t3 .tab-bar { background: var(--coral-mid); }
+
+  .tab-num { font-size: 11px; color: var(--text3); margin-bottom: 4px; font-family: 'DM Mono', monospace; }
+  .tab-name { font-size: 14px; font-weight: 500; color: var(--text); }
+
+  .panel {
+    border: 0.5px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 20px;
+    background: var(--bg2);
+    display: none;
+  }
+
+  .panel.active { display: block; }
+
+  .panel h4 { font-size: 15px; font-weight: 500; margin-bottom: 10px; }
+  .panel p { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 10px; }
+  .panel p:last-of-type { margin-bottom: 0; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .chip {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    color: var(--text2);
+    background: var(--bg);
+  }
+
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .tier {
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 0.5px solid transparent;
+  }
+
+  .tier-name { font-size: 12px; font-weight: 500; margin-bottom: 4px; }
+  .tier-desc { font-size: 11px; line-height: 1.5; }
+
+  .tier-1 { background: var(--green-bg); }
+  .tier-1 .tier-name { color: var(--green-txt); }
+  .tier-1 .tier-desc { color: var(--green-txt); opacity: 0.8; }
+
+  .tier-2 { background: var(--blue-light); }
+  .tier-2 .tier-name { color: var(--blue); }
+  .tier-2 .tier-desc { color: var(--blue); opacity: 0.8; }
+
+  .tier-3 { background: var(--red-bg); }
+  .tier-3 .tier-name { color: var(--red-txt); }
+  .tier-3 .tier-desc { color: var(--red-txt); opacity: 0.8; }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="tag">ACGF — Framework</span>
+  <h2>The AI Commerce Governance Framework</h2>
+  <p class="subtitle">Three interlocking pillars. Each addresses a distinct phase of the agent lifecycle. Click to explore.</p>
+
+  <div class="tabs">
+    <div class="tab t1 active" onclick="show(0)">
+      <div class="tab-num">Pillar 01</div>
+      <div class="tab-name">Certification</div>
+      <div class="tab-bar"></div>
+    </div>
+    <div class="tab t2" onclick="show(1)">
+      <div class="tab-num">Pillar 02</div>
+      <div class="tab-name">Monitoring</div>
+      <div class="tab-bar"></div>
+    </div>
+    <div class="tab t3" onclick="show(2)">
+      <div class="tab-num">Pillar 03</div>
+      <div class="tab-name">Enforcement</div>
+      <div class="tab-bar"></div>
+    </div>
+  </div>
+
+  <div class="panel active" id="p0">
+    <h4>Identity and accountability before deployment</h4>
+    <p>Every agent carries a cryptographically signed attestation — operational purpose, accountable principal, authorized transaction volume, compliance standards attested to. When something goes wrong, the certification chain provides the forensic trail that currently does not exist.</p>
+    <p>Certification also requires a behavioral profile: how the agent handles retries, rate limits, circuit breakers, and failure states. This creates an enforceable standard where none exists today.</p>
+    <div class="tier-grid">
+      <div class="tier tier-1">
+        <div class="tier-name">Tier 1 — Standard</div>
+        <div class="tier-desc">Low volume. Self-attested behavioral profile.</div>
+      </div>
+      <div class="tier tier-2">
+        <div class="tier-name">Tier 2 — Commercial</div>
+        <div class="tier-desc">Medium volume. Third-party behavioral audit required.</div>
+      </div>
+      <div class="tier tier-3">
+        <div class="tier-name">Tier 3 — Enterprise</div>
+        <div class="tier-desc">High volume. Full audit + real-time telemetry sharing.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel" id="p1">
+    <h4>What agents actually do — not just what they claim</h4>
+    <p>Certified Tier 2+ agents emit standardized behavioral telemetry: request rate and volume, error distributions, retry frequency, session duration, anomaly flags. The schema is a shared standard — analogous to how OpenTelemetry standardized observability across distributed systems.</p>
+    <p>Live telemetry is scored against the certified behavioral baseline. A Tier 1 agent generating Tier 3 traffic volumes triggers an anomaly flag. For high-stakes decisions, agents must produce a machine-readable decision log on demand — the explainability requirement.</p>
+    <div class="tags">
+      <span class="chip">Standardized telemetry schema</span>
+      <span class="chip">Continuous drift detection</span>
+      <span class="chip">Continuous risk scoring</span>
+      <span class="chip">Explainability on demand</span>
+    </div>
+  </div>
+
+  <div class="panel" id="p2">
+    <h4>Monitoring without enforcement is theater</h4>
+    <p>A real-time policy engine at the API gateway layer evaluates every agent request against platform-defined and framework-defined rules before it reaches core infrastructure. Policies span rate limits, transaction ceilings, required backoff patterns, and contextual restrictions during peak load windows.</p>
+    <p>When enforcement disrupts a transaction in progress, settlement patterns provide deterministic resolution: partial orders completed, reversed, or held in escrow; inventory reservations released on schedule; payment authorizations voided or confirmed within a bounded window.</p>
+    <div class="tags">
+      <span class="chip">Real-time policy engine</span>
+      <span class="chip">Graduated enforcement ladder</span>
+      <span class="chip">Settlement patterns</span>
+      <span class="chip">Defined appeal mechanisms</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(i) {
+  document.querySelectorAll('.tab').forEach((t, j) => t.classList.toggle('active', i === j));
+  document.querySelectorAll('.panel').forEach((p, j) => p.classList.toggle('active', i === j));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACGF — Enforcement Ladder</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --bg2: #f1efe8;
+    --border: rgba(0,0,0,0.1);
+    --border2: rgba(0,0,0,0.07);
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --text3: #9c9a92;
+    --s1-bg: #EAF3DE; --s1-txt: #3B6D11;
+    --s2-bg: #E6F1FB; --s2-txt: #185FA5;
+    --s3-bg: #FAEEDA; --s3-txt: #854F0B;
+    --s4-bg: #FAECE7; --s4-txt: #993C1D;
+    --s5-bg: #FCEBEB; --s5-txt: #A32D2D;
+    --coral: #993C1D;
+    --coral-light: #FAECE7;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --bg2: #242422;
+      --border: rgba(255,255,255,0.1);
+      --border2: rgba(255,255,255,0.06);
+      --text: #e8e6de;
+      --text2: #9c9a92;
+      --text3: #5f5e5a;
+      --s1-bg: #173404; --s1-txt: #97C459;
+      --s2-bg: #042C53; --s2-txt: #85B7EB;
+      --s3-bg: #412402; --s3-txt: #EF9F27;
+      --s4-bg: #4A1B0C; --s4-txt: #F0997B;
+      --s5-bg: #501313; --s5-txt: #F7C1C1;
+      --coral: #F0997B;
+      --coral-light: #4A1B0C;
+    }
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .card {
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--coral);
+    background: var(--coral-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 1rem;
+  }
+
+  h2 { font-size: 20px; font-weight: 500; margin-bottom: 0.4rem; }
+  .subtitle { font-size: 14px; color: var(--text2); margin-bottom: 1.75rem; }
+
+  .rung {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.12s;
+    background: var(--bg);
+    position: relative;
+  }
+
+  .rung:hover { background: var(--bg2); }
+  .rung.open { background: var(--bg2); }
+
+  .step {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+    font-family: 'DM Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .s1 { background: var(--s1-bg); color: var(--s1-txt); }
+  .s2 { background: var(--s2-bg); color: var(--s2-txt); }
+  .s3 { background: var(--s3-bg); color: var(--s3-txt); }
+  .s4 { background: var(--s4-bg); color: var(--s4-txt); }
+  .s5 { background: var(--s5-bg); color: var(--s5-txt); }
+
+  .rung-body { flex: 1; min-width: 0; }
+  .rung-name { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .rung-desc { font-size: 13px; color: var(--text2); line-height: 1.5; }
+
+  .trigger {
+    font-size: 12px;
+    color: var(--text3);
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 0.5px solid var(--border2);
+    display: none;
+    line-height: 1.6;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .rung.open .trigger { display: block; }
+
+  .chevron {
+    font-size: 14px;
+    color: var(--text3);
+    margin-left: auto;
+    padding-left: 8px;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    margin-top: 7px;
+    line-height: 1;
+  }
+
+  .rung.open .chevron { transform: rotate(180deg); }
+
+  .connector {
+    width: 2px;
+    height: 8px;
+    background: var(--border);
+    margin: 0 auto 0 22px;
+    margin-bottom: 0;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <span class="tag">ACGF — Enforcement</span>
+  <h2>The graduated enforcement ladder</h2>
+  <p class="subtitle">Enforcement is not a binary switch. Each step has defined trigger conditions, duration limits, and appeal mechanisms. Click any step to see trigger criteria.</p>
+
+  <div class="rung" onclick="toggle(this)">
+    <div class="step s1">1</div>
+    <div class="rung-body">
+      <div class="rung-name">Advisory</div>
+      <div class="rung-desc">Structured warning header sent to agent. No requests blocked.</div>
+      <div class="trigger">Trigger: request rate &lt;20% above certified baseline, duration &lt;5 min. Single response header. No principal notification required. Auto-clears on next compliant request.</div>
+    </div>
+    <div class="chevron">▾</div>
+  </div>
+
+  <div class="rung" onclick="toggle(this)">
+    <div class="step s2">2</div>
+    <div class="rung-body">
+      <div class="rung-name">Throttle</div>
+      <div class="rung-desc">Request rate capped below normal ceiling. Requests still served at reduced volume.</div>
+      <div class="trigger">Trigger: sustained drift &gt;20% above baseline for &gt;5 min, or risk score &gt;0.4. Duration: 15–60 min auto-expiry. Principal notification issued. Appeal via certified behavioral declaration.</div>
+    </div>
+    <div class="chevron">▾</div>
+  </div>
+
+  <div class="rung" onclick="toggle(this)">
+    <div class="step s3">3</div>
+    <div class="rung-body">
+      <div class="rung-name">Queue</div>
+      <div class="rung-desc">Non-urgent requests deferred to lower-priority processing. Time-sensitive requests still honored.</div>
+      <div class="trigger">Trigger: risk score &gt;0.6, or platform load &gt;85% combined with Tier 3 agent activity. Duration: until platform load normalizes. Settlement patterns activate for in-flight transactions.</div>
+    </div>
+    <div class="chevron">▾</div>
+  </div>
+
+  <div class="rung" onclick="toggle(this)">
+    <div class="step s4">4</div>
+    <div class="rung-body">
+      <div class="rung-name">Suspend</div>
+      <div class="rung-desc">Access temporarily suspended. Structured notice issued to accountable principal.</div>
+      <div class="trigger">Trigger: risk score &gt;0.8, confirmed behavioral profile violation, or unresolved escalation from Throttle/Queue. Duration: pending review, max 72 hr. Full settlement pattern execution required.</div>
+    </div>
+    <div class="chevron">▾</div>
+  </div>
+
+  <div class="rung" onclick="toggle(this)">
+    <div class="step s5">5</div>
+    <div class="rung-body">
+      <div class="rung-name">Revoke</div>
+      <div class="rung-desc">Certification revoked. All access terminated. Revocation published to certification authority.</div>
+      <div class="trigger">Trigger: confirmed repeated violations, fraudulent certification attestation, or unresolved Suspend after 72 hr. Permanent — full re-certification required. Revocation record shared across NCOL federation.</div>
+    </div>
+    <div class="chevron">▾</div>
+  </div>
+</div>
+
+<script>
+function toggle(el) { el.classList.toggle('open'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Commerce Governance Framework — Interactive Diagrams</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #fafaf8;
+    --bg2: #f1efe8;
+    --border: rgba(0,0,0,0.1);
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --text3: #9c9a92;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --bg2: #242422;
+      --border: rgba(255,255,255,0.1);
+      --text: #e8e6de;
+      --text2: #9c9a92;
+      --text3: #5f5e5a;
+      --purple: #AFA9EC;
+      --purple-light: #26215C;
+    }
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 3rem 1.5rem;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .series-tag {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--purple);
+    background: var(--purple-light);
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 1.25rem;
+  }
+
+  h1 { font-size: 26px; font-weight: 500; line-height: 1.3; margin-bottom: 0.6rem; }
+  .lead { font-size: 15px; color: var(--text2); line-height: 1.65; margin-bottom: 2.5rem; max-width: 560px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 14px;
+    margin-bottom: 3rem;
+  }
+
+  .widget-card {
+    border: 0.5px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    text-decoration: none;
+    color: inherit;
+    background: var(--bg);
+    transition: background 0.15s, border-color 0.15s;
+    display: block;
+  }
+
+  .widget-card:hover {
+    background: var(--bg2);
+    border-color: var(--purple);
+  }
+
+  .w-num {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text3);
+    margin-bottom: 8px;
+  }
+
+  .w-title {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .w-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+
+  .w-link {
+    font-size: 12px;
+    color: var(--purple);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  .footer-title { font-size: 15px; font-weight: 500; margin-bottom: 0.5rem; }
+
+  .series-list { list-style: none; margin-bottom: 2rem; }
+  .series-list li {
+    font-size: 13px;
+    color: var(--text2);
+    padding: 6px 0;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .series-list li:last-child { border-bottom: none; }
+  .current { font-weight: 500; color: var(--text) !important; }
+  .dot-cur { width: 6px; height: 6px; border-radius: 50%; background: var(--purple); flex-shrink: 0; }
+  .dot-oth { width: 6px; height: 6px; border-radius: 50%; background: var(--border); border: 0.5px solid var(--text3); flex-shrink: 0; }
+
+  .meta { font-size: 12px; color: var(--text3); font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+  <span class="series-tag">Article 3 of 5 — Interactive diagrams</span>
+  <h1>AI Commerce Governance Framework (2026)</h1>
+  <p class="lead">Interactive diagrams accompanying the Medium article. Each widget is a standalone page — link directly or embed as an iframe on any platform that supports it.</p>
+
+  <div class="grid">
+    <a class="widget-card" href="widget-1-traffic-chart.html">
+      <div class="w-num">Widget 01</div>
+      <div class="w-title">Agentic traffic growth</div>
+      <div class="w-desc">AI-driven retail traffic data from Adobe, McKinsey, and Shopify. 4,700% YoY growth visualized.</div>
+      <div class="w-link">Open widget →</div>
+    </a>
+
+    <a class="widget-card" href="widget-2-simulator.html">
+      <div class="w-num">Widget 02</div>
+      <div class="w-title">Emergent failure simulator</div>
+      <div class="w-desc">Interactive simulation of how individually rational AI agents produce collectively destabilizing outcomes. Drag to cascade.</div>
+      <div class="w-link">Open widget →</div>
+    </a>
+
+    <a class="widget-card" href="widget-3-pillars.html">
+      <div class="w-num">Widget 03</div>
+      <div class="w-title">Three-pillar framework</div>
+      <div class="w-desc">Certification, Monitoring, and Constraint Enforcement — the three interlocking pillars of the ACGF. Click to explore each.</div>
+      <div class="w-link">Open widget →</div>
+    </a>
+
+    <a class="widget-card" href="widget-4-enforcement.html">
+      <div class="w-num">Widget 04</div>
+      <div class="w-title">Enforcement ladder</div>
+      <div class="w-desc">The five-step graduated enforcement mechanism. Click each rung to reveal trigger criteria, duration limits, and appeal paths.</div>
+      <div class="w-link">Open widget →</div>
+    </a>
+  </div>
+
+  <hr class="divider">
+
+  <p class="footer-title">Series: AI-agent governance and distributed commerce infrastructure</p>
+  <ul class="series-list">
+    <li><div class="dot-oth"></div> Article 1 — Retry Storms in Distributed Commerce Infrastructure</li>
+    <li><div class="dot-oth"></div> Article 2 — AI Agents Are the New Bot Traffic</li>
+    <li><div class="dot-cur"></div> <span class="current">Article 3 — AI Commerce Governance Framework (2026)</span></li>
+    <li><div class="dot-oth"></div> Forthcoming — Open Reference Architecture (GitHub + Whitepaper)</li>
+    <li><div class="dot-oth"></div> Forthcoming — AI-Agent Governance Framework for Retail Platforms</li>
+  </ul>
+
+  <p class="meta">acgf · 2026 · github.com/yourusername/acgf</p>
+
+</body>
+</html>
