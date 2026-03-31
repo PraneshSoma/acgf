@@ -79,26 +79,30 @@
   .subtitle { font-size: 14px; color: var(--text2); margin-bottom: 1.75rem; }
 
   .controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
     margin-bottom: 1.25rem;
   }
 
   .ctrl {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 6px;
     font-size: 13px;
     color: var(--text2);
-    flex: 1;
-    min-width: 160px;
   }
 
-  .ctrl label { white-space: nowrap; }
+  .ctrl-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ctrl label { white-space: nowrap; font-size: 12px; }
 
   input[type=range] {
-    flex: 1;
+    width: 100%;
     accent-color: var(--teal);
     height: 4px;
     cursor: pointer;
@@ -109,8 +113,6 @@
     font-size: 13px;
     font-weight: 400;
     color: var(--text);
-    min-width: 32px;
-    text-align: right;
   }
 
   .status-track {
@@ -178,19 +180,16 @@
 
   <div class="controls">
     <div class="ctrl">
-      <label>Agents</label>
+      <div class="ctrl-top"><label>Agents</label><span class="val" id="agents-val">10</span></div>
       <input type="range" min="1" max="200" value="10" step="1" id="agents" oninput="update()">
-      <span class="val" id="agents-val">10</span>
     </div>
     <div class="ctrl">
-      <label>Retry aggression</label>
+      <div class="ctrl-top"><label>Retry aggression</label><span class="val" id="retry-val">3×</span></div>
       <input type="range" min="1" max="10" value="3" step="1" id="retry" oninput="update()">
-      <span class="val" id="retry-val">3×</span>
     </div>
     <div class="ctrl">
-      <label>Peak multiplier</label>
+      <div class="ctrl-top"><label>Peak multiplier</label><span class="val" id="peak-val">1×</span></div>
       <input type="range" min="1" max="5" value="1" step="1" id="peak" oninput="update()">
-      <span class="val" id="peak-val">1×</span>
     </div>
   </div>
 
@@ -221,8 +220,12 @@ let history = Array(80).fill(0);
 let frame = 0;
 let currentLoad = 0;
 
+function getWidth() {
+  return canvas.parentElement ? canvas.parentElement.offsetWidth : 640;
+}
+
 function initAgents(n) {
-  const W = canvas.offsetWidth || 640;
+  const W = getWidth();
   agentList = Array.from({length: n}, () => ({
     x: Math.random() * W,
     y: Math.random() * 180,
@@ -267,10 +270,14 @@ function update() {
 }
 
 function draw() {
-  const W = canvas.offsetWidth || 640;
+  const W = getWidth();
   const H = 180;
   canvas.width = W;
   canvas.height = H;
+
+  if (agentList.length > 0 && agentList[0].x > W) {
+    initAgents(agentList.length);
+  }
   ctx.clearRect(0, 0, W, H);
   frame++;
 
@@ -324,9 +331,11 @@ function draw() {
   requestAnimationFrame(draw);
 }
 
-initAgents(10);
-update();
-draw();
+window.addEventListener('load', () => {
+  initAgents(10);
+  update();
+  draw();
+});
 </script>
 </body>
 </html>
